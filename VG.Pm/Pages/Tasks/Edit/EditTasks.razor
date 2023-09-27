@@ -1,0 +1,52 @@
+﻿@inherits EditTasksView
+
+<MudDialog Style="width: 40%;">
+    <DialogContent>
+        <div style="border-bottom: 1px solid grey; padding-bottom: 15px;margin-top:-24px;" class="d-flex justify-content-between">
+            <MudText Typo="Typo.h6">
+                @Title
+            </MudText>
+        </div>
+        <MudTextField Label="Task Title" HelperText="Max. 255 characters"
+        @bind-Value="TaskViewModel.Title" For="@(() => TaskViewModel.Title)" />
+        <MudTextField Label="Description" HelperText="Max. 255 characters"
+        @bind-Value="TaskViewModel.Description" For="@(() => TaskViewModel.Description)" />
+        <MudSelect T="int" Label="Status" AnchorOrigin="Origin.BottomCenter" @bind-Value="TaskViewModel.StatusId">
+            @if (StatusList != null)
+            {
+                @foreach (var item in StatusList)
+                {
+                    <MudSelectItem Value="item.StatusId">
+                        @item.Title
+                    </MudSelectItem>
+                }
+            }
+        </MudSelect>
+        <MudSelect T="int" Label="Project" AnchorOrigin="Origin.BottomCenter" @bind-Value="TaskViewModel.ProjectId">
+            @if (ProjectList != null)
+            {
+                @foreach (var item in ProjectList)
+                {
+                    <MudSelectItem Value="item.ProjectId">
+                        @item.Title
+                    </MudSelectItem>
+                }
+            }
+        </MudSelect>
+        <MudSelect T="int" Label="Type" AnchorOrigin="Origin.BottomCenter" @bind-Value="TaskViewModel.TaskTypeId">
+            @if (TypeList != null)
+            {
+                @foreach (var item in TypeList)
+                {
+                    <MudSelectItem Value="item.TaskTypeId">
+                        @item.Title
+                    </MudSelectItem>
+                }
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <MudButton @onclick="Save" Variant="Variant.Filled" Color="Color.Success">Save</MudButton>
+        <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>

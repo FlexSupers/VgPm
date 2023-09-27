@@ -1,0 +1,17 @@
+﻿@inherits EditTaskTypeView
+
+<MudDialog Style="width: 40%;">
+    <DialogContent>
+        <div style="border-bottom: 1px solid grey; padding-bottom: 15px;margin-top:-24px;" class="d-flex justify-content-between">
+            <MudText Typo="Typo.h6">
+                @Title
+            </MudText>
+        </div>
+        <MudTextField Label="Status Title" HelperText="Max. 255 characters"
+        @bind-Value="TaskTypeViewModel.Title" For="@(() => TaskTypeViewModel.Title)" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton @onclick="Save" Variant="Variant.Filled" Color="Color.Success">Save</MudButton>
+        <MudButton @onclick="Cancel" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,79 @@
+﻿@page "/Kanban"
+@inherits KanbanView
+
+<div class="сontainer">
+    <div class="d-flex justify-content-center">
+        <div class="col-4 col-md-auto" style="margin-left:5%">
+            <br />
+            <h3 style="margin-left: 40%">Kanban</h3>
+            @if (TaskList != null)
+            {
+                <div class="d-flex justify-content-between" style="margin-right:5%">
+                    @* <input style="background: transparent; border: 1px solid currentColor;" type="text" class="form-control-sm" placeholder="Search.." @bind-value="@FilterValue" @bind-value:event="oninput" /> *@
+                        <MudTextField Style="margin: 2%;" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search" Variant="Variant.Outlined" @bind-Value="@FilterValue" Label="Search..." Text="@FilterValue" T="string" Immediate="true"></MudTextField>
+                    <MudSelect Style="margin: 5%;" T="int" Label="Project" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter" @bind-Value="@FilterProj">
+                            @if (ProjectModel != null)
+                            {
+                                @foreach (var item in ProjectModel)
+                                {
+                                    <MudSelectItem Value="item.ProjectId">
+                                        @item.Title
+                                    </MudSelectItem>
+                                }
+                            }
+                        </MudSelect>
+                    <MudSelect Style="margin: 5%;" T="int" Label="TaskType" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter" @bind-Value="@FilterType">
+                            @if (TypeModel != null)
+                            {
+                                @foreach (var item in TypeModel)
+                                {
+                                    <MudSelectItem Value="item.TaskTypeId">
+                                        @item.Title
+                                    </MudSelectItem>
+                                }
+                            }
+                        </MudSelect>
+                </div>
+            }
+            <br />
+        </div>
+    </div>
+</div>
+@if (TaskList == null)
+{
+    <MudGrid Justify="Justify.Center" Style="align-items: center; margin-top:250px">
+        <MudProgressCircular Color="Color.Error" Size="Size.Large" Indeterminate="true" Style="position:absolute" />
+    </MudGrid>
+}
+else
+{
+    <MudDropContainer T="DropItem" Items="@dropzoneItems" @ref="container" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+        <ChildContent>
+            @foreach (var item in StatusModel)
+            {
+                var dropzone = item.Title;
+                <MudPaper Class="ma-4 flex-grow-1">
+                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                        <MudToolBar>
+                            <MudText Style="margin-left:5%;" Typo="Typo.subtitle1"><b>@item.Title</b></MudText>
+                            <MudSpacer />
+                            <MudIconButton Icon="@Icons.Material.Filled.Add" @onclick="AddItemDialog">
+                            </MudIconButton>
+                        </MudToolBar>
+                        <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" AllowReorder="true" />
+                    </MudList>
+                </MudPaper>
+                @* <MudPaper Class="ma-4 flex-grow-1">
+        <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+        <MudListSubheader>@dropzone</MudListSubheader>
+        <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" AllowReorder="true" />
+        </MudList>
+        </MudPaper> *@
+            }
+        </ChildContent>
+        <ItemRenderer>
+            <MudPaper @onclick="(() => EditItemDialog(context.TaskViewModel))" Style="margin:5%; background-color:gainsboro" Elevation="25" Class="pa-4 rounded-lg my-3">@context.TaskViewModel.Title</MudPaper>
+        </ItemRenderer>
+    </MudDropContainer>
+}
+

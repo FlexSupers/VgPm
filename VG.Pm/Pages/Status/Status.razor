@@ -1,0 +1,67 @@
+﻿@page "/Status"
+
+@inherits StatusView
+
+<div class="сontainer">
+    <div class="d-flex justify-content-center">
+        <div class="col-4 col-md-auto" style="margin-left:3%">
+            <br />
+            <h3 style="margin-left: 10%;">Status</h3>
+            @if (Model != null)
+            {
+                <div class="d-flex justify-content-between" style="margin-right:50px">
+                    @* <input type="date" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterValue" @bind-value:event="oninput" />
+                <input style="margin-left:10px;" type="text" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterError" @bind-value:event="oninput" /> *@
+                    <MudButton Style="margin-left:15%" Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton>
+                </div>
+            }
+            <br />
+        </div>
+    </div>
+</div>
+@if (Model == null)
+{
+    <MudGrid Justify="Justify.Center" Style="align-items: center; margin-top:250px">
+        <MudProgressCircular Color="Color.Error" Size="Size.Large" Indeterminate="true" Style="position:absolute" />
+    </MudGrid>
+}
+else
+{
+    <MudTable Elevation="14" Items="@Model" SortLabel="Sort" FixedHeader="true" Height="600px" Style="width: 90%; margin-left: 5%">
+        <HeaderContent>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Data.ViewModel.StatusViewModel, object>(x=>x.StatusId)">
+                    #
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Data.ViewModel.StatusViewModel, object>(x=>x.Title)">
+                    Title
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<Data.ViewModel.StatusViewModel, object>(x=>x.OrderId)">
+                    Order
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+            </MudTh>
+        </HeaderContent>
+        <RowTemplate Context="item">
+            <MudTd DataLabel="#">@item.StatusId</MudTd>
+            <MudTd DataLabel="Title">@item.Title</MudTd>
+            <MudTd DataLabel="Title">@item.OrderId</MudTd>
+            <MudTd>
+                <MudTooltip Text="Edit">
+                    <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Default" @onclick="(() => EditItemDialog(item))"></MudIconButton>
+                </MudTooltip>
+                <MudTooltip Text="Delete">
+                    <MudIconButton Icon="@Icons.Material.Outlined.DeleteForever" Color="Color.Error" aria-label="delete" @onclick="(() => DeleteItemAsync(item))"></MudIconButton>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+        </PagerContent>
+    </MudTable>
+}

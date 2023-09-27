@@ -1,0 +1,84 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="CustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>VG.Pm</PageTitle>
+
+<MudLayout Style="overflow: hidden;">
+    <div class="hideWhenPrint">
+        <MudAppBar Elevation="3">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+            <MudSpacer />
+            <MudTooltip Text="Перейти на главную">
+                <MudIconButton Href="./" Icon="@Icons.Material.Outlined.Home" Variant="Variant.Filled" Size="Size.Medium" ButtonType="ButtonType.Submit" />
+            </MudTooltip>
+            <MudSpacer />
+        </MudAppBar>
+        <MudDrawer @bind-Open="@open" Elevation="7">
+            <MudDrawerHeader>
+                <MudText title="VG.Pm" Typo="Typo.h6">VG.Pm</MudText>
+            </MudDrawerHeader>
+            <MudNavMenu Color="Color.Secondary" Bordered="true">
+                <MudNavLink Icon="@Icons.Material.Outlined.Home" Href="./" Match="NavLinkMatch.All">Home</MudNavLink>
+                <MudNavLink Href="./Kanban" Icon="@Icons.Material.Outlined.Dashboard">Kanban</MudNavLink>
+                <MudNavLink Href="./Task" Icon="@Icons.Material.Filled.Task">Task</MudNavLink>
+                <MudNavLink Href="./TaskType" Icon="@Icons.Material.Filled.Bookmarks">TaskType</MudNavLink>
+                <MudNavLink Href="./Status" Icon="@Icons.Material.Filled.AutoAwesomeMotion">Status</MudNavLink>
+                <MudNavLink Href="./Project" Icon="@Icons.Material.Filled.FeaturedPlayList">Project</MudNavLink>
+                <MudNavLink Icon="@Icons.Material.Filled.Storage" Href="./LogApplication" Match="NavLinkMatch.All">System</MudNavLink>
+                @* <MudNavLink Icon="@Icons.Material.Outlined.Login" Href="./LogMessageEntry" Match="NavLinkMatch.All">LogMessageEntry</MudNavLink> *@
+            </MudNavMenu>
+        </MudDrawer>
+    </div>
+    <div class="page">
+        <MudMainContent>
+            @Body
+        </MudMainContent>
+    </div>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+    bool open = false;
+    public bool _isExpanded = false;
+    public bool _isOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+
+    MudTheme CustomTheme = new MudTheme()
+        {
+            Palette = new PaletteLight()
+            {
+                ActionDefault = Colors.Shades.Black,
+                DrawerText = Colors.Shades.Black,
+                TextPrimary = Colors.Shades.Black,
+                Primary = Colors.Shades.Black,
+                Secondary = Colors.Green.Accent4,
+                AppbarBackground = Colors.Grey.Lighten5,
+                Background = Colors.Grey.Lighten2,
+            },
+            PaletteDark = new PaletteDark()
+            {
+                ActionDefault = Colors.Grey.Lighten5,
+                DrawerText = Colors.Grey.Lighten5,
+                TextPrimary = Colors.Grey.Lighten5,
+                Surface = Colors.Grey.Darken3,
+                Error = Colors.Red.Darken1,
+                Primary = Colors.Shades.Black,
+                Secondary = Colors.Green.Accent4,
+                AppbarBackground = Colors.Grey.Darken3,
+                Background = Colors.Grey.Darken4,
+                DrawerBackground = Colors.Grey.Darken3,
+            },
+        };
+}
