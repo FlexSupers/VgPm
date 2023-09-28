@@ -9,9 +9,8 @@
             @if (TaskList != null)
             {
                 <div class="d-flex justify-content-between" style="margin-right:5%">
-                    @* <input style="background: transparent; border: 1px solid currentColor;" type="text" class="form-control-sm" placeholder="Search.." @bind-value="@FilterValue" @bind-value:event="oninput" /> *@
-                        <MudTextField Style="margin: 2%;" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search" Variant="Variant.Outlined" @bind-Value="@FilterValue" Label="Search..." Text="@FilterValue" T="string" Immediate="true"></MudTextField>
-                    <MudSelect Style="margin: 5%;" T="int" Label="Project" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter" @bind-Value="@FilterProj">
+                    <MudTextField Style="margin: 2%;" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Outlined.Search" Variant="Variant.Outlined" @bind-Value="@FilterTasks" Label="Search..." Text="@FilterTasks" T="string" Immediate="true"></MudTextField>
+                    <MudSelect Style="margin: 5%;" T="int" Label="Project" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter" @bind-Value="@FilterProject">
                             @if (ProjectModel != null)
                             {
                                 @foreach (var item in ProjectModel)
@@ -63,12 +62,6 @@ else
                         <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" AllowReorder="true" />
                     </MudList>
                 </MudPaper>
-                @* <MudPaper Class="ma-4 flex-grow-1">
-        <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
-        <MudListSubheader>@dropzone</MudListSubheader>
-        <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" AllowReorder="true" />
-        </MudList>
-        </MudPaper> *@
             }
         </ChildContent>
         <ItemRenderer>

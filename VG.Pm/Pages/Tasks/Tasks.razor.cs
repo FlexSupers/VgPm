@@ -4,6 +4,7 @@ using MudBlazor;
 using VG.Pm.Data.Services;
 using VG.Pm.Data.ViewModel;
 using VG.Pm.Pages.Project.Edit;
+using VG.Pm.Pages.Status.Edit;
 using VG.Pm.Pages.Tasks.Edit;
 using VG.Pm.Shared;
 
@@ -12,22 +13,19 @@ namespace VG.Pm.Pages.Tasks
     public class TaskView : ComponentBase
     {
         [Inject] protected IDialogService DialogService { get; set; }
-        [Inject] private ProjectService ProjService { get; set; }
-        [Inject] private StatusService StatService { get; set; }
-        [Inject] private TaskService Service { get; set; }
-        [Inject] private LogApplicationErrorService LogService { get; set; }
+        [Inject] protected ProjectService ProjService { get; set; }
+        [Inject] protected StatusService StatService { get; set; }
+        [Inject] protected TaskService Service { get; set; }
+        [Inject] protected LogApplicationErrorService LogService { get; set; }
         [Inject] protected ISnackbar Snackbar { get; set; }
-        [Inject] protected IJSRuntime jsruntime { get; set; }
 
         protected List<TaskViewModel> Model { get; set; }
         protected List<ProjectViewModel> ProjectModel { get; set; } = new();
         protected List<StatusViewModel> StatusModel { get; set; } = new();
 
-        public LogApplicationErrorViewModel log = new LogApplicationErrorViewModel();
+        protected LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
 
         public TaskViewModel mCurrentItem;
-        private string mTest;
-        public string Test { get => mTest; set => mTest = value; }
 
         public string mFilterValue;
 
@@ -71,17 +69,18 @@ namespace VG.Pm.Pages.Tasks
                 if (!result.Canceled)
                 {
                     TaskViewModel returnModel = new TaskViewModel();
+                    //returnModel = (UserViewModel)result.Data;
                     returnModel = newItem;
                     var newUser = Service.Create(returnModel);
                     Model.Add(newItem);
-                    Snackbar.Add("Элемент сохранен", Severity.Success);
+                    Snackbar.Add("Item saved", Severity.Success);
                     StateHasChanged();
                 }
 
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
 
@@ -99,22 +98,22 @@ namespace VG.Pm.Pages.Tasks
                     TaskViewModel returnModel = new TaskViewModel();
                     returnModel = (TaskViewModel)result.Data;
                     var newItem = Service.Update(returnModel);
-                    var index = Model.FindIndex(x => x.ProjectId == newItem.ProjectId);
+                    var index = Model.FindIndex(x => x.TaskId == newItem.TaskId);
                     Model[index] = newItem;
-                    Snackbar.Add("Item updated", Severity.Success);
+                    Snackbar.Add("Элемент сохранен", Severity.Success);
                     StateHasChanged();
                 }
                 else
                 {
                     var oldItem = Service.ReloadItem(item);
-                    var index = Model.FindIndex(x => x.ProjectId == oldItem.ProjectId);
+                    var index = Model.FindIndex(x => x.TaskId == oldItem.TaskId);
                     Model[index] = oldItem;
                     StateHasChanged();
                 }
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
 
         }
@@ -135,10 +134,9 @@ namespace VG.Pm.Pages.Tasks
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
     }
-
 }
 

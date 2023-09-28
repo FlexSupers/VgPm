@@ -15,14 +15,12 @@ namespace VG.Pm.Pages.TaskType
         [Inject] private TaskTypeService Service { get; set; }
         [Inject] private LogApplicationErrorService LogService { get; set; }
         [Inject] protected ISnackbar Snackbar { get; set; }
-        [Inject] protected IJSRuntime jsruntime { get; set; }
 
         protected List<TaskTypeViewModel> Model { get; set; }
-        public TaskTypeViewModel stat = new TaskTypeViewModel();
-        public LogApplicationErrorViewModel log = new LogApplicationErrorViewModel();
-        /*protected LogApplicationStackTraceView StackTraceModel = new LogApplicationStackTraceView();*/
-        public TaskTypeViewModel CurrentItem;
-        public string filterValue { get; set; }
+
+        public LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
+
+        public TaskTypeViewModel mCurrentItem;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -58,7 +56,7 @@ namespace VG.Pm.Pages.TaskType
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
 
@@ -91,7 +89,7 @@ namespace VG.Pm.Pages.TaskType
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
 
         }
@@ -112,7 +110,7 @@ namespace VG.Pm.Pages.TaskType
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
     }

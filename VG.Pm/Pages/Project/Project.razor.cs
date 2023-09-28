@@ -14,14 +14,13 @@ namespace VG.Pm.Pages.Project
         [Inject] private ProjectService Service { get; set; }
         [Inject] private LogApplicationErrorService LogService { get; set; }
         [Inject] protected ISnackbar Snackbar { get; set; }
-        [Inject] protected IJSRuntime jsruntime { get; set; }
 
         protected List<ProjectViewModel> Model { get; set; }
-        public ProjectViewModel proj = new ProjectViewModel();
-        public LogApplicationErrorViewModel log = new LogApplicationErrorViewModel();
-        /*protected LogApplicationStackTraceView StackTraceModel = new LogApplicationStackTraceView();*/
-        public ProjectViewModel CurrentItem;
-        public string filterValue { get; set; }
+
+        public LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
+
+        public ProjectViewModel mCurrentItem;
+        public string mFilterValue;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -34,17 +33,17 @@ namespace VG.Pm.Pages.Project
         }
         public string FilterValue
         {
-            get => filterValue;
+            get => mFilterValue;
 
             set
             {
-                filterValue = value;
+                mFilterValue = value;
                 Filter();
             }
         }
         protected void Filter()
         {
-            Model = Service.Filtering(filterValue);
+            Model = Service.Filtering(mFilterValue);
             StateHasChanged();
         }
         public async Task AddItemDialog()
@@ -72,7 +71,7 @@ namespace VG.Pm.Pages.Project
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
 
@@ -105,7 +104,7 @@ namespace VG.Pm.Pages.Project
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
 
         }
@@ -126,7 +125,7 @@ namespace VG.Pm.Pages.Project
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
     }

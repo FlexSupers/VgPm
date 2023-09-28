@@ -14,13 +14,13 @@ namespace VG.Pm.Pages.LogApplicationError
         [Inject] protected IJSRuntime jsruntime { get; set; }
 
         protected List<LogApplicationErrorViewModel> Model { get; set; }
-        protected List<LogApplicationErrorViewModel> ModelForClearing = new List<LogApplicationErrorViewModel>();
-        public LogApplicationErrorViewModel log = new LogApplicationErrorViewModel();
+
+        public LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
+
         public bool flag;
-        /*protected LogApplicationStackTraceView StackTraceModel = new LogApplicationStackTraceView();*/
-        public LogApplicationErrorViewModel CurrentItem;
-        public DateTime filterValue { get; set; }
-        public string filterError = "";
+        public LogApplicationErrorViewModel mCurrentItem;
+        public DateTime mFilterValue;
+        public string mFilterError = "";
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -35,21 +35,21 @@ namespace VG.Pm.Pages.LogApplicationError
 
         public DateTime FilterValue
         {
-            get => filterValue;
+            get => mFilterValue;
 
             set
             {
-                filterValue = value;
+                mFilterValue = value;
                 Filter();
             }
         }
         public string FilterError
         {
-            get => filterError;
+            get => mFilterError;
 
             set
             {
-                filterError = value;
+                mFilterError = value;
                 FiltersError();
             }
         }
@@ -77,7 +77,7 @@ namespace VG.Pm.Pages.LogApplicationError
             {
                 if (e.InnerException != null)
                 {
-                    LogService.Create(log, e.Message, e.StackTrace, e.InnerException.StackTrace, DateTime.Now);
+                    LogService.Create(Log, e.Message, e.StackTrace, e.InnerException.StackTrace, DateTime.Now);
                 }
             }
             /*try
@@ -106,12 +106,12 @@ namespace VG.Pm.Pages.LogApplicationError
         }
         protected void Filter()
         {
-            Model = LogService.Filtering(filterValue);
+            Model = LogService.Filtering(mFilterValue);
             StateHasChanged();
         }
         protected void FiltersError()
         {
-            Model = LogService.FilteringError(filterError);
+            Model = LogService.FilteringError(mFilterError);
             StateHasChanged();
         }
     }

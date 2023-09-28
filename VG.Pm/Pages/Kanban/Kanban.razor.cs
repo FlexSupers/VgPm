@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using MudBlazor;
-using MudBlazor.Utilities;
 using VG.Pm.Data.Services;
 using VG.Pm.Data.ViewModel;
 using VG.Pm.Pages.Tasks.Edit;
-using static VG.Pm.Pages.Kanban.KanbanView;
 
 namespace VG.Pm.Pages.Kanban
 {
@@ -19,8 +17,6 @@ namespace VG.Pm.Pages.Kanban
         [Inject] private TaskService Service { get; set; }
         [Inject] private LogApplicationErrorService LogService { get; set; }
         [Inject] protected ISnackbar Snackbar { get; set; }
-        [Inject] protected IJSRuntime jsruntime { get; set; }
-        [Inject] protected NavigationManager NavigationManager { get; set; }
 
         public ProjectViewModel ProjectViewModel { get; set; } = new ProjectViewModel();
 
@@ -28,20 +24,18 @@ namespace VG.Pm.Pages.Kanban
         protected List<ProjectViewModel> ProjectModel { get; set; } = new();
         protected List<StatusViewModel> StatusModel { get; set; } = new();
         protected List<TaskTypeViewModel> TypeModel { get; set; } = new();
-        public TaskViewModel task = new TaskViewModel();
-        public LogApplicationErrorViewModel log = new LogApplicationErrorViewModel();
-        public TaskViewModel CurrentItem;
+        public TaskViewModel TaskModel = new TaskViewModel();
+        public LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
+        public TaskViewModel mCurrentItem;
 
         public List<DropItem> dropzoneItems = new();
         public List<DropItem> serverData = new();
 
         public MudDropContainer<DropItem> container;
 
-        private HubConnection hubConnection;
-
-        public string filterValue { get; set; }
-        public int filterProj { get; set; }
-        public int filterType { get; set; }
+        public string mFilterTasks;
+        public int mFilterProjects;
+        public int mFilterTypes;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -58,53 +52,42 @@ namespace VG.Pm.Pages.Kanban
                     serverData.Add(rez);
                     i++;
                 }
-                //Model.Reverse();
                 await LoadServerData();
-
-                /*hubConnection = new HubConnectionBuilder()
-                   .WithUrl(NavigationManager.ToAbsoluteUri("/boardHub"))
-                   .Build();
-                await hubConnection.StartAsync();
-                hubConnection.On<TaskViewModel>("ItemUpdate", async (item) =>
-                {
-                    Console.WriteLine($"Item name:{item.Title}");
-                    StateHasChanged();
-                });*/
             }
         }
-        public string FilterValue
+        public string FilterTasks
         {
-            get => filterValue;
+            get => mFilterTasks;
 
             set
             {
-                filterValue = value;
-                Filter();
+                mFilterTasks = value;
+                FilterTask();
             }
         }
-        public int FilterProj
+        public int FilterProject
         {
-            get => filterProj;
+            get => mFilterProjects;
 
             set
             {
-                filterProj = value;
-                FilterProject();
+                mFilterProjects = value;
+                FilterProjects();
             }
         }
         public int FilterType
         {
-            get => filterType;
+            get => mFilterTypes;
 
             set
             {
-                filterType = value;
+                mFilterTypes = value;
                 FilterTypes();
             }
         }
-        protected async void Filter()
+        protected async void FilterTask()
         {
-            TaskList = Service.FilteringEmploers(filterValue);
+            TaskList = Service.FilteringEmploers(mFilterTasks);
             var i = 0;
             serverData.Clear();
             foreach (var item in TaskList)
@@ -116,9 +99,9 @@ namespace VG.Pm.Pages.Kanban
             await LoadServerData();
             StateHasChanged();
         }
-        protected async void FilterProject()
+        protected async void FilterProjects()
         {
-            TaskList = Service.FilteringProject(filterProj);
+            TaskList = Service.FilteringProject(mFilterProjects);
             var i = 0;
             serverData.Clear();
             foreach (var item in TaskList)
@@ -132,7 +115,7 @@ namespace VG.Pm.Pages.Kanban
         }
         protected async void FilterTypes()
         {
-            TaskList = Service.FilteringType(filterType);
+            TaskList = Service.FilteringType(mFilterTypes);
             var i = 0;
             serverData.Clear();
             foreach (var item in TaskList)
@@ -159,7 +142,6 @@ namespace VG.Pm.Pages.Kanban
                 {
                     
                     TaskViewModel returnModel = new TaskViewModel();
-                    //returnModel = (UserViewModel)result.Data;
                     returnModel = newItem;
                     var newUser = Service.Create(returnModel);
                     TaskList.Add(newItem);
@@ -174,7 +156,7 @@ namespace VG.Pm.Pages.Kanban
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
         public async void EditItemDialog(TaskViewModel item)
@@ -212,13 +194,8 @@ namespace VG.Pm.Pages.Kanban
             }
             catch (Exception ex)
             {
-                LogService.Create(log, ex.Message, ex.StackTrace, ex.InnerException.Message, DateTime.Now);
+                LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.Message, DateTime.Now);
             }
-
-        }
-
-        public async void Status()
-        {
 
         }
         public async void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
@@ -228,8 +205,6 @@ namespace VG.Pm.Pages.Kanban
             dropItem.Item.TaskViewModel.StatusId = list1.StatusId;
             SaveData(dropItem.Item.TaskViewModel);
             Snackbar.Add("Item updated", Severity.Info);
-
-            /*await hubConnection.SendCoreAsync("ItemUpdate", new object?[] {dropItem.Item.TaskViewModel });*/
         }
 
         public async void SaveData(TaskViewModel item)
@@ -265,23 +240,17 @@ namespace VG.Pm.Pages.Kanban
                     Selector = item.Selector
                 })
                 .ToList();
-            await RefreshContainer();
+             RefreshContainer();
         }
-        private async Task RefreshContainer()
+        private void RefreshContainer()
         {
-
-            await InvokeAsync(StateHasChanged);
-            await Task.Delay(1);
-
+            StateHasChanged();
             container?.Refresh();
-
-            await Task.CompletedTask;
         }
         public class DropItem
         {
             public TaskViewModel TaskViewModel { get; init; }
             public string Selector { get; set; }
-            public string Title { get; set; }
         }
     }
 }
