@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using VG.Pm.PmDb.Shared;
 
 namespace VG.Pm.PmDb
 {
@@ -78,10 +79,10 @@ namespace VG.Pm.PmDb
 
         public TEntity Create(TEntity item, string operation = "Create")
         {
-            /*if (item is IChangeLog)
+            if (item is IChangeLog)
             {
                 FillChangeLogJson((IChangeLog)item, operation);
-            }*/
+            }
 
             var itemNew = _dbSet.Add(item).Entity;
             _context.SaveChanges();
@@ -110,33 +111,12 @@ namespace VG.Pm.PmDb
             _context.Entry(OldItem).State = EntityState.Unchanged;
         }
 
-        public TEntity Update(TEntity item, string operation = "")
+        public TEntity Update(TEntity item, string operation = "Update")
         {
-            /*if (item is IChangeLog)
-            {
-                FillChangeLogJson((IChangeLog)item, operation);
-            }*/
-
-            _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
-
-            _context.Entry(item).State = EntityState.Detached;
-            _context.SaveChanges();
-
-            return item;
-        }
-
-        public TEntity Update(TEntity item, byte[] rowversion, string operation = "")
-        {
-            /*if (item is IRowVersion)
-            {
-                _context.Entry(item).OriginalValues["RowVersion"] = rowversion;
-            }
-
             if (item is IChangeLog)
             {
                 FillChangeLogJson((IChangeLog)item, operation);
-            }*/
+            }
 
             _context.Entry(item).State = EntityState.Modified;
             _context.SaveChanges();
@@ -163,24 +143,23 @@ namespace VG.Pm.PmDb
             }
         }
 
-        /*private void FillChangeLogJson(IChangeLog item, string operation)
+        private void FillChangeLogJson(IChangeLog item, string operation)
         {
             var changeLogJson = string.IsNullOrEmpty(item.ChangeLogJson) ? new List<ChangeLog>() : JsonSerializer.Deserialize<List<ChangeLog>>(item.ChangeLogJson);
             changeLogJson.Add(new ChangeLog()
             {
                 Operation = String.IsNullOrEmpty(operation) ? "Update" : operation,
-                User = _user,
                 Date = DateTime.Now
             });
             item.ChangeLogJson = JsonSerializer.Serialize(changeLogJson);
 
-            while (item.ChangeLogJson.Length > 4000)
+            while (item.ChangeLogJson.Length > 400)
             {
                 var firstRecord = changeLogJson.First();
                 changeLogJson.Remove(firstRecord);
 
                 item.ChangeLogJson = JsonSerializer.Serialize(changeLogJson);
             }
-        }*/
+        }
     }
 }

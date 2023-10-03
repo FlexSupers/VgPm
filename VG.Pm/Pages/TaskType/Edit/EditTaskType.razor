@@ -9,6 +9,7 @@
         </div>
         <MudTextField Label="Status Title" HelperText="Max. 255 characters"
         @bind-Value="TaskTypeViewModel.Title" For="@(() => TaskTypeViewModel.Title)" />
+        <MudColorPicker Label="Color Picker" @bind-Text="TaskTypeViewModel.ColorPicker" Style="@($"color: {TaskTypeViewModel.ColorPicker};")" Placeholder="Select Color" />
     </DialogContent>
     <DialogActions>
         <MudButton @onclick="Save" Variant="Variant.Filled" Color="Color.Success">Save</MudButton>

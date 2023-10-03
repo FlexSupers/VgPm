@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VG.Pm.PmDb.Models;
+using VG.Pm.PmDb.Shared;
 
 namespace VG.Pm.PmDb
 {

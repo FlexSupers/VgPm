@@ -1,12 +1,59 @@
 ﻿@page "/"
 
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+<div class="container">
+    <div class="p-5 text-center">
+        <MudBadge Color="Color.Success" Class="mb-4">
+            <MudText Typo="Typo.h5" Class="m-1">Congratulations, <strong>VG.Pm</strong> is successfully running!</MudText>
+        </MudBadge>
+        <h1>Welcome to the Application</h1>
+    </div>
+    <div class="my-3 text-center">
+        <h3>Let's improve your application!</h3>
+        <p>Here are some links to help you get started:</p>
+    </div>
 
-<PageTitle>Index</PageTitle>
+    <div class="card mt-4 mb-5">
+        <div class="card-body">
+            <div class="row text-center justify-content-md-center">
+                <div class="col-lg-4">
+                    <div class="p-4">
+                        <h5 class="mb-3"><i class="fas fa-book text-secondary d-block my-3 fa-2x"></i> Kanban</h5>
+                        <p>Organize your work with tasks.</p>
+                        <MudIconButton Href="./Kanban" Icon="@Icons.Material.Filled.KeyboardDoubleArrowDown" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Medium" />
+                    </div>
+                </div>
+                <div class="col-lg-4 border-start">
+                    <div class="p-4">
+                        <h5 class="mb-3"><i class="fas fa-cubes text-secondary d-block my-3 fa-2x"></i> Tasks </h5>
+                        <p>Tasks are collected in one table for ease of working with them.</p>
+                        <MudIconButton Href="./Task" Icon="@Icons.Material.Filled.KeyboardDoubleArrowDown" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Medium" />
+                    </div>
+                </div>
+                <div class="col-lg-4 border-start">
+                    <div class="p-4">
+                        <h5 class="mb-3"><i class="fas fa-users text-secondary d-block my-3 fa-2x"></i> TaskType </h5>
+                        <p>Create task types for clear and intuitive work.</p>
+                        <MudIconButton Href="./TaskType" Icon="@Icons.Material.Filled.KeyboardDoubleArrowDown" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Medium" />
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center mt-lg-3 justify-content-md-center">
+                <div class="col-lg-4">
+                    <div class="p-4">
+                        <h5 class="mb-3"><i class="fas fa-pen-nib text-secondary d-block my-3 fa-2x"></i> Status </h5>
+                        <p>Have multiple statuses to keep your work organized.</p>
+                        <MudIconButton Href="./Status" Icon="@Icons.Material.Filled.KeyboardDoubleArrowDown" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Medium" />
+                    </div>
+                </div>
+                <div class="col-lg-4 border-start">
+                    <div class="p-4">
+                        <h5 class="mb-3"><i class="fab fa-github text-secondary d-block my-3 fa-2x"></i> Projects </h5>
+                        <p>Add and edit projects.</p>
+                        <MudIconButton Href="./Project" Icon="@Icons.Material.Filled.KeyboardDoubleArrowDown" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Medium" />
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@inherits InfoView
+
+<MudDialog Style="width: 40%;">
+    <DialogContent>
+        <div style="margin-top:-24px;" class="d-flex justify-content-between">
+            <MudText Typo="Typo.h6">
+                @Title
+            </MudText>
+        </div>
+        <MudTable Elevation="14" Items="@ChangeLogList" SortLabel="Sort" FixedHeader="true" Height="600px" Style="width: 90%; margin-left: 5%">
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<PmDb.Shared.ChangeLog, object>(x=>x.Date)">
+                        Date
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<PmDb.Shared.ChangeLog, object>(x=>x.Operation)">
+                        Operation
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate Context="item">
+                <MudTd DataLabel="Date">@item.Date</MudTd>
+                <MudTd DataLabel="Operation">@item.Operation</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+            </PagerContent>
+        </MudTable>
+    </DialogContent>
+</MudDialog>

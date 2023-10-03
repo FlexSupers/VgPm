@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
+using Newtonsoft.Json;
 using VG.Pm.Data.Services;
 using VG.Pm.Data.ViewModel;
 using VG.Pm.Pages.Project.Edit;
 using VG.Pm.Pages.Status.Edit;
 using VG.Pm.Pages.Tasks.Edit;
+using VG.Pm.PmDb.Shared;
 using VG.Pm.Shared;
 
 namespace VG.Pm.Pages.Tasks
@@ -22,10 +24,12 @@ namespace VG.Pm.Pages.Tasks
         protected List<TaskViewModel> Model { get; set; }
         protected List<ProjectViewModel> ProjectModel { get; set; } = new();
         protected List<StatusViewModel> StatusModel { get; set; } = new();
+        protected List<ChangeLog> ChangeLogList { get; set; } = new();
 
         protected LogApplicationErrorViewModel Log = new LogApplicationErrorViewModel();
 
         public TaskViewModel mCurrentItem;
+        public ChangeLog mChangeLog = new ChangeLog();
 
         public string mFilterValue;
 
@@ -73,7 +77,7 @@ namespace VG.Pm.Pages.Tasks
                     returnModel = newItem;
                     var newUser = Service.Create(returnModel);
                     Model.Add(newItem);
-                    Snackbar.Add("Item saved", Severity.Success);
+                    Snackbar.Add("Item add", Severity.Success);
                     StateHasChanged();
                 }
 
@@ -95,12 +99,13 @@ namespace VG.Pm.Pages.Tasks
                 var result = await dialog.Result;
                 if (!result.Canceled)
                 {
+                    
                     TaskViewModel returnModel = new TaskViewModel();
                     returnModel = (TaskViewModel)result.Data;
                     var newItem = Service.Update(returnModel);
                     var index = Model.FindIndex(x => x.TaskId == newItem.TaskId);
                     Model[index] = newItem;
-                    Snackbar.Add("Элемент сохранен", Severity.Success);
+                    Snackbar.Add("Item changed", Severity.Success);
                     StateHasChanged();
                 }
                 else
@@ -122,6 +127,7 @@ namespace VG.Pm.Pages.Tasks
         {
             try
             {
+
                 var dialog = DialogService.Show<Delete>("Are you sure want to delete this task?");
                 var result = await dialog.Result;
                 if (!result.Canceled)
@@ -135,6 +141,26 @@ namespace VG.Pm.Pages.Tasks
             catch (Exception ex)
             {
                 LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+            }
+        }
+        public async Task InfoItemAsync(TaskViewModel item)
+        {
+            try
+            {
+                var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium };
+                var parameters = new DialogParameters<Info> { { x => x.TaskViewModel, item } };
+                parameters.Add(x => x.Title, "Info");
+                var dialog = DialogService.Show<Info>("", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    Snackbar.Add("Item deleted", Severity.Success);
+                }
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                //LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
             }
         }
     }

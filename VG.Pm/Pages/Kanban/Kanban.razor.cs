@@ -178,7 +178,7 @@ namespace VG.Pm.Pages.Kanban
                     serverData.Add(new DropItem { TaskViewModel = newItem, Selector = StatusModel.FirstOrDefault(x => x.StatusId == newItem.StatusId).Title });
                     var oldItem = serverData.FirstOrDefault(x => x.TaskViewModel.TaskId == newItem.TaskId);
                     serverData.Remove(oldItem);
-                    Snackbar.Add("Item changed", Severity.Success);
+                    Snackbar.Add("Item changed", Severity.Info);
                     container.Refresh();
                     await LoadServerData();
                     StateHasChanged();
@@ -251,6 +251,22 @@ namespace VG.Pm.Pages.Kanban
         {
             public TaskViewModel TaskViewModel { get; init; }
             public string Selector { get; set; }
+        }
+        public async Task InfoItemAsync(TaskViewModel item)
+        {
+            try
+            {
+                var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Medium };
+                var parameters = new DialogParameters<Info> { { x => x.TaskViewModel, item } };
+                parameters.Add(x => x.Title, "Info");
+                var dialog = DialogService.Show<Info>("", parameters, options);
+                var result = await dialog.Result;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                //LogService.Create(Log, ex.Message, ex.StackTrace, ex.InnerException.StackTrace, DateTime.Now);
+            }
         }
     }
 }

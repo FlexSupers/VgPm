@@ -2,6 +2,7 @@
 using VG.Pm.Data.ViewModel;
 using VG.Pm.PmDb;
 using VG.Pm.PmDb.Models;
+using VG.Pm.PmDb.Shared;
 
 namespace VG.Pm.Data.Services
 {

@@ -10,7 +10,7 @@
                 {
                     <div class="d-flex justify-content-between" style="margin-right:50px">
                         <input type="date" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterValue" @bind-value:event="oninput" />
-                        <input style="margin-left:10px;" type="text" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterError" @bind-value:event="oninput" />
+                        <input style="margin-left:10px;" type="text" class="form-control-sm" placeholder="Search..." @bind-value="@FilterError" @bind-value:event="oninput" />
                         <MudButton Style="left:3%" Variant="Variant.Outlined" @onclick="(() => Error(mCurrentItem))">Error</MudButton>
                     </div>
                 }

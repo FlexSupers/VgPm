@@ -1,6 +1,7 @@
 ﻿using VG.Pm.Data.ViewModel;
 using VG.Pm.PmDb;
 using VG.Pm.PmDb.Models;
+using VG.Pm.PmDb.Shared;
 using Task = VG.Pm.PmDb.Models.Task;
 
 namespace VG.Pm.Data.Services

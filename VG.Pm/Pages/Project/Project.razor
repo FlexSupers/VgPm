@@ -4,16 +4,18 @@
 
 <div class="сontainer">
     <div class="d-flex justify-content-center">
-        <div class="col-4 col-md-auto" style="margin-left:3%">
-            <br />
-            <h3 style="margin-left: 30%;">Project</h3>
-            @if (Model != null)
-            {
-                <div class="d-flex justify-content-between">
-                    <input style="margin-left:10px;" type="text" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterValue" @bind-value:event="oninput" />
-                    <MudButton Style="margin-left:3%" Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton>
-                </div>
-            }
+        <div class="col-4 col-md-auto">
+            <div class="my-3 text-center">
+                <h3>Project</h3>
+            </div>
+            <div class="my-3 text-center">
+                <MudStack Row="true">
+                    <input type="text" class="form-control-sm" placeholder="Search..." @bind-value="@FilterValue" @bind-value:event="oninput" />
+                    <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton>
+                </MudStack>
+                @* <input type="text" class="form-control-sm" placeholder="Search..." @bind-value="@FilterValue" @bind-value:event="oninput" />
+                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton> *@
+            </div>
             <br />
         </div>
     </div>

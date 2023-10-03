@@ -4,16 +4,13 @@
 
 <div class="сontainer">
     <div class="d-flex justify-content-center">
-        <div class="col-4 col-md-auto" style="margin-left:3%">
-            <br />
-            <h3 style="margin-left: 10%;">TaskType</h3>
+        <div class="col-4 col-md-auto">
+            <div class="my-3 text-center">
+                <h3>TaskType</h3>
+                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton>
+            </div>
             @if (Model != null)
             {
-                <div class="d-flex justify-content-between" style="margin-right:50px">
-                    @* <input type="date" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterValue" @bind-value:event="oninput" />
-                <input style="margin-left:10px;" type="text" class="form-control-sm" placeholder="Поиск..." @bind-value="@FilterError" @bind-value:event="oninput" /> *@
-                    <MudButton Style="margin-left:15%" Variant="Variant.Outlined" StartIcon="@Icons.Material.Outlined.Add" @onclick="AddItemDialog">Add</MudButton>
-                </div>
             }
             <br />
         </div>

@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VG.Pm.PmDb.Shared;
 
 namespace VG.Pm.PmDb.Models
 {
     [Table("Task")]
-    public class Task
+    public class Task : IChangeLog
     {
         [Key]
         public int TaskId { get; set; }

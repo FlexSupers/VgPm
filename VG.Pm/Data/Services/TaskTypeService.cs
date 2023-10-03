@@ -48,6 +48,7 @@ namespace VG.Pm.Data.Services
         {
             var x = repoStatus.FindById(item.TaskTypeId);
             x.Title = item.Title;
+            x.ColorPicker = item.ColorPicker;
             x.ChangeLogJson = item.ChangeLogJson;
             return Convert(repoStatus.Update(x));
         }

@@ -16,8 +16,4 @@
     <ProjectReference Include="..\VG.Pm.PmDb\VG.Pm.PmDb.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\EditModel\" />
-  </ItemGroup>
-
 </Project>

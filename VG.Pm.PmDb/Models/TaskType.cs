@@ -14,6 +14,7 @@ namespace VG.Pm.PmDb.Models
         [Key]
         public int TaskTypeId { get; set; }
         public string Title { get; set; }
+        public string? ColorPicker { get; set; }
         [Timestamp]
         public byte[] Timestamp { get; set; }
         public string? ChangeLogJson { get; set; }

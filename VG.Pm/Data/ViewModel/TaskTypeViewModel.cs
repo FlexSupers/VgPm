@@ -31,6 +31,11 @@ namespace VG.Pm.Data.ViewModel
             get => _item.Title;
             set => _item.Title = value;
         }
+        public string? ColorPicker
+        {
+            get => _item.ColorPicker;
+            set => _item.ColorPicker = value;
+        }
         public string? ChangeLogJson
         {
             get => _item.ChangeLogJson;

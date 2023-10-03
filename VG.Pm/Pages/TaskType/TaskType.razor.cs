@@ -27,7 +27,7 @@ namespace VG.Pm.Pages.TaskType
             if (firstRender)
             {
                 Model = Service.Get();
-                //Model.Reverse();
+
                 await InvokeAsync(StateHasChanged);
             }
         }

@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-center">
         <div class="col-4 col-md-auto" style="margin-left:5%">
             <br />
-            <h3 style="margin-left: 40%">Kanban</h3>
+            <h3 style="margin-left: 36%">Kanban</h3>
             @if (TaskList != null)
             {
                 <div class="d-flex justify-content-between" style="margin-right:5%">
@@ -20,7 +20,7 @@
                                     </MudSelectItem>
                                 }
                             }
-                        </MudSelect>
+                    </MudSelect>
                     <MudSelect Style="margin: 5%;" T="int" Label="TaskType" Variant="Variant.Text" AnchorOrigin="Origin.BottomCenter" @bind-Value="@FilterType">
                             @if (TypeModel != null)
                             {
@@ -31,7 +31,7 @@
                                     </MudSelectItem>
                                 }
                             }
-                        </MudSelect>
+                    </MudSelect>
                 </div>
             }
             <br />
@@ -65,7 +65,10 @@ else
             }
         </ChildContent>
         <ItemRenderer>
-            <MudPaper @onclick="(() => EditItemDialog(context.TaskViewModel))" Style="margin:5%; background-color:gainsboro" Elevation="25" Class="pa-4 rounded-lg my-3">@context.TaskViewModel.Title</MudPaper>
+            <MudPaper @onclick="(() => EditItemDialog(context.TaskViewModel))" Style="@($"margin:5%; background-color:{TypeModel.FirstOrDefault(x=>x.TaskTypeId==context.TaskViewModel.TaskTypeId).ColorPicker}")" Elevation="25" Class="pa-4 rounded-lg my-3">
+                @context.TaskViewModel.Title
+                <MudIconButton Icon="@Icons.Material.Filled.Info" Color="Color.Surface" @onclick="(() => InfoItemAsync(context.TaskViewModel))"></MudIconButton>
+            </MudPaper>
         </ItemRenderer>
     </MudDropContainer>
 }
